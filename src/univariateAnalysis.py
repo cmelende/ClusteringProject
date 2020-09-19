@@ -57,17 +57,17 @@ class UniVariateAnalysis:
 
     def get_df_without_lower_outliers_on_column(self):
         copy = self.dataframe.copy()
-        copy = copy[copy[self.columnName] >= self.get_lower_whisker_value()]
+        copy = copy[copy[self.columnName] > self.get_lower_whisker_value()]
         return copy
 
     def get_df_without_higher_outliers_on_column(self):
         copy_df = self.dataframe.copy()
-        copy_df = copy_df[copy_df[self.columnName] <= self.get_higher_whisker_value()]
+        copy_df = copy_df[copy_df[self.columnName] < self.get_higher_whisker_value()]
         return copy_df
 
     def get_df_without_outliers_on_column(self):
         copy_df = self.dataframe.copy()
-        copy_df = copy_df[(copy_df[self.columnName] <= self.get_higher_whisker_value()) & (copy_df[self.columnName] >= self.get_lower_whisker_value())]
+        copy_df = copy_df[(copy_df[self.columnName] < self.get_higher_whisker_value()) & (copy_df[self.columnName] > self.get_lower_whisker_value())]
         return copy_df
 
     
@@ -89,21 +89,21 @@ class OutlierFilter:
         copy = self.dataframe.copy()
         for col in self.columnNames:
             analysis = UniVariateAnalysis(self.dataframe, col)
-            copy = copy[copy[col] >= analysis.get_lower_whisker_value()]
+            copy = copy[copy[col] > analysis.get_lower_whisker_value()]
         return copy
 
     def get_df_without_higher_outliers(self):
         copy_df = self.dataframe.copy()
         for col in self.columnNames:
             analysis = UniVariateAnalysis(self.dataframe, col)
-            copy_df = copy_df[copy_df[col] <= analysis.get_higher_whisker_value()]
+            copy_df = copy_df[copy_df[col] < analysis.get_higher_whisker_value()]
         return copy_df
 
     def get_df_without_outliers(self):
         copy_df = self.dataframe.copy()
         for col in self.columnNames:
             analysis = UniVariateAnalysis(self.dataframe, col)
-            copy_df = copy_df[(copy_df[col] <= analysis.get_higher_whisker_value()) & (copy_df[col] >= analysis.get_lower_whisker_value())]
+            copy_df = copy_df[(copy_df[col] < analysis.get_higher_whisker_value()) & (copy_df[col] > analysis.get_lower_whisker_value())]
         return copy_df
 
         
